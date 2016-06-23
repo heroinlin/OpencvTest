@@ -1,0 +1,1 @@
+Dice_seg.exe ../images/1.jpg

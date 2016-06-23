@@ -1,0 +1,1 @@
+Ero_Dila.exe ../images/1.jpg
