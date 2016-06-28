@@ -2,6 +2,7 @@
 #include "image.h"
 #include<time.h>
 #include"list.h"
+#include<stdio.h>
 #define MAX 100
 char *fgetl(FILE *fp)
 {
@@ -63,8 +64,13 @@ int main(int argc, char **argv)
 	int m = plist->size;
 	for (int i = 0; i < m; i++)
 	{
+		if (!paths[i])
+		{
+			printf("load error!\n");
+			break;
+		}
 		image im = load_image(paths[i], 0, 0, channels);
-
+		//printf("load %s", paths[i]);
 		//产生随机框
 		//srand((unsigned)time(NULL));//srand()函数产生一个以当前时间开始的随机种子.应该放在for等循环语句前面 不然要很长时间等待
 		float x = rand() % MAX*0.005 + 0.3;
@@ -80,7 +86,7 @@ int main(int argc, char **argv)
 		box box = { x[0],x[1],x[2],x[3]};*/
 		box box = { x, y, w, h };
 		//box box = { 0.5, 0.5, 0.2, 0.3 }; 
-		draw_bbox(im, box, 1, 1, 0, 0);
+		//draw_bbox(im, box, 1, 1, 0, 0);
 		//flip_image(im);
 		//translate_image(im, 10);
 		//scale_image(im, 0.6);
@@ -88,8 +94,17 @@ int main(int argc, char **argv)
 		//image em = crop_image(im, 50, 50, 80, 80); embed_image(em,im, 100, 100);
 		//im=collapse_image_layers(im, 100);
 		//im = threshold_image(im, 0.5);
-		char save_path[256];
-		sprintf(save_path, "./images/%07d", i);
-		show_image(im, save_path);
+		char labels_path[32];
+		printf("save to images/%07d.txt", i + 1);
+		sprintf(labels_path, "./labels/%07d.txt", i+1);
+		FILE * fp;
+		fp = fopen(labels_path, "w+");//以读写方式打开labels_path路径的文件，没有则新建
+		fprintf(fp, "1 %f %f %f %f", x, y, w, h);//将box写入到fp中
+		fclose(fp);
+		//char save_path[256];
+		//sprintf(save_path, "./images/%07d", i+1);
+		//im = crop_image(im, (x - 0.5*w) *im.w, (y - 0.5*h)*im.h, w*im.w, h*im.h);
+		//show_image(im, save_path);
+		free_image(im);
 	}
 }

@@ -27,6 +27,7 @@ float get_color(int c, int x, int max)
     return r;
 }
 
+
 void draw_label(image a, int r, int c, image label, const float *rgb)
 //在图像a上添加label标记图
 {
@@ -420,40 +421,39 @@ image crop_image(image im, int dx, int dy, int w, int h)//裁剪图像，左上角为（dx
     }
     return cropped;
 }
-//image resize_min(image im, int min)//调整im尺寸，如
-//{
-//	int w = im.w;
-//	int h = im.h;
-//	if (w < h){
-//		h = (h * min) / w;
-//		w = min;
-//	}
-//	else {
-//		w = (w * min) / h;
-//		h = min;
-//	}
-//	image resized = resize_image(im, w, h);
-//	return resized;
-//}
-//
-////随机裁剪中心位于low和high间，宽与高为size的图像
-//image random_crop_image(image im, int low, int high, int size)
-//{
-//	int r = rand_int(low, high);
-//	image resized = resize_min(im, r);
-//	int dx = rand_int(0, resized.w - size);
-//	int dy = rand_int(0, resized.h - size);
-//	image crop = crop_image(resized, dx, dy, size, size);
-//
-//	/*
-//	show_image(im, "orig");
-//	show_image(crop, "cropped");
-//	cvWaitKey(0);
-//	*/
-//
-//	free_image(resized);
-//	return crop;
-//}
+image resize_min(image im, int min)
+{
+	int w = im.w;
+	int h = im.h;
+	if (w < h){
+		h = (h * min) / w;
+		w = min;
+	}
+	else {
+		w = (w * min) / h;
+		h = min;
+	}
+	image resized = resize_image(im, w, h);
+	return resized;
+}
+image random_crop_image(image im, int low, int high, int size)
+{
+	int r = rand_int(low, high);
+	image resized = resize_min(im, r);
+	int dx = rand_int(0, resized.w - size);
+	int dy = rand_int(0, resized.h - size);
+	image crop = crop_image(resized, dx, dy, size, size);
+
+	/*
+	show_image(im, "orig");
+	show_image(crop, "cropped");
+	cvWaitKey(0);
+	*/
+
+	free_image(resized);
+	return crop;
+}
+
 float three_way_max(float a, float b, float c)
 {
     return (a > b) ? ( (a > c) ? a : c) : ( (b > c) ? b : c) ;
