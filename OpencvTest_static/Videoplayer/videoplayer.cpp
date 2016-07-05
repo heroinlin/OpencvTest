@@ -50,6 +50,11 @@ void Invplayer(CvCapture* pCapture)
 	if (numFrames > 0)
 	{
 		cvCreateTrackbar("Position", "videoplayer", &g_slider_pos, numFrames, on_changed);
+		/*在标签中显示的文字（提示滑动条的用途） "Position"
+		  创建的滑动条要放置窗体的名字 "videoplayer"
+		  滑动条的取值范围从 0 到 numFrames(最小值只能为 zero).
+		  滑动后的值存放在 g_slider_pos 变量里
+		  每当滑动条的值改变, 就会调用 on_changed 回调函数*/
 	}
 	while (pFrame = cvQueryFrame(pCapture))
 	{

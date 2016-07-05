@@ -6,5 +6,7 @@ REM Video_Compose.exe ../images_squ
 rem Video_Combine.exe  ../videos  ../videos2  ../images
 rem Box.exe   ../images/images_list.txt
   rem Crop_Box.exe   ../images/images_list.txt
- Videoplayer.exe ../videos/1.avi
+ rem Videoplayer.exe ../videos/1.avi
+rem Image_Convert.exe  ../images/images ../images/jpg jpg
+STB_Image.exe ../images/cat.jpg  ../images/cat_re
 pause
