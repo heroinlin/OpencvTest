@@ -1,70 +1,23 @@
-/*
-Image offset.
-Í¼ÏñÆ«ÒÆ
-*/
-
 #include "PS_Algorithm.h"
 
 int main(int argc, char** argv)
 {
 	//char*  Image_name=argv[1];
-	char*  Image_name = "../images/1.jpg";
+	char*  Image_name = "../images/cat.jpg";
 	Mat Img = imread(Image_name);
 	Mat Img_out(Img.size(), CV_8UC3);
-
+	/**********************Offset******************************************/
+	/*  
 	int warp, xOffset, yOffset;
-	xOffset = 150;
-	yOffset = 100;
+	xOffset = 300;
+	yOffset = 200;
 	warp = 1;
-
-	int width = Img.cols;
-	int height = Img.rows;
-
-	if (warp)
-	{
-		while (xOffset<0)
-			xOffset = xOffset + width;
-
-		while (yOffset<0)
-			yOffset = yOffset + height;
-
-		xOffset = xOffset%width;
-		yOffset = yOffset%height;
-	}
-
-	int new_x, new_y;
-
-	for (int y = 0; y<height; y++)
-	{
-		for (int x = 0; x<width; x++)
-		{
-			if (warp)
-			{
-				new_x = (x + width - xOffset) % width;
-				new_y = (y + height - yOffset) % height;
-			}
-			else
-			{
-				new_x = x - xOffset;
-				new_y = y - yOffset;
-			}
-
-			if (new_x<0)         new_x = 0;
-			if (new_x >= width - 1)  new_x = width - 2;
-			if (new_y<0)         new_y = 0;
-			if (new_y >= height - 1) new_y = height - 2;
-
-
-			for (int k = 0; k<3; k++)
-			{
-				Img_out.at<Vec3b>(y, x)[k] = Img.at<Vec3b>(new_y, new_x)[k];
-
-			}
-
-		}
-
-	}
-
+	Offset(Img,Img_out,xOffset,yOffset,warp);
+	*/
+	/***********************circle_filter**********************************/
+	//circle_filter(Img, Img_out);
+	/********************pinch_filter**************************************/
+	pinch_filter(Img, Img_out);
 
 	Show_Image(Img_out, "New_img");
 

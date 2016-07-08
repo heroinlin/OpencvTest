@@ -44,4 +44,8 @@
 using namespace std;
 using namespace cv;
 void getFiles(string path, string exd, vector<string>& files);
+void getFilesAll(string path, vector<string>& files);
+void getAllFiles(string path, vector<string>& files);
+void getJustCurrentFile(string path, vector<string>& files);
+void getJustCurrentDir(string path, vector<string>& files);
 #endif // !_GETFILE_H_
