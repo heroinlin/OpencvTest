@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <windows.h>
 #include <io.h>
+#include <stdlib.h>
 char *find_replace(char *str, char *orig, char *rep)
 {
 	static char buffer[4096];
@@ -46,25 +47,21 @@ char *find_replace(char *str, char *orig, char *rep)
 //	//system("pause");
 //	return EXIT_SUCCESS;
 //}
-int main(int argc, char * argv[])
+int main(int argc, char ** argv)
 {
 	string dir_path = argv[1];
 	vector<string> image_names;
-	getFiles(dir_path, ".jpg", image_names);
+	getFiles(dir_path, "", image_names);
 	int i;
 	printf("%d\n", image_names.size());
+	FILE *fps;
+	char save_imageName[256];
+	sprintf(save_imageName, "../images/images.txt");
+	fps = fopen(save_imageName, "w");
 	for ( i = 0; i < image_names.size(); i++)
 	{
-		char fileName[256];
-		char save_imageName[256];
-		sprintf(fileName,"%s", image_names[i]);
-		printf("%s", fileName);
-		char save_labelName[256];
-		sprintf(save_imageName, "../images/images/%07d.jpg", i + 1);
-		sprintf(save_labelName, "../images/jpg/%07d.txt", i + 1);
-		char *labeltxt = find_replace(fileName, ".jpg", ".txt");
-		rename(fileName, save_imageName);
-		rename(labeltxt, save_labelName);
+		fprintf(fps, "%s\n", image_names[i]);
 	}
+	fclose(fps);
 	return 0;
 }

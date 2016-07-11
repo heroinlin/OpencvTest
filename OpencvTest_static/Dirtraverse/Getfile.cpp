@@ -25,11 +25,11 @@ void getFiles(string path, string exd, vector<string>& files)
 
 	if (0 != strcmp(exd.c_str(), ""))
 	{
-		exdName = "\\*." + exd;
+		exdName = "/*." + exd;
 	}
 	else
 	{
-		exdName = "\\*";
+		exdName = "/*";
 	}
 
 	if ((hFile = _findfirst(pathName.assign(path).append(exdName).c_str(), &fileinfo)) != -1)
@@ -41,12 +41,12 @@ void getFiles(string path, string exd, vector<string>& files)
 			if ((fileinfo.attrib &  _A_SUBDIR))
 			{
 				if (strcmp(fileinfo.name, ".") != 0 && strcmp(fileinfo.name, "..") != 0)
-					getFiles(pathName.assign(path).append("\\").append(fileinfo.name), exd, files);
+					getFiles(pathName.assign(path).append("/").append(fileinfo.name), exd, files);
 			}
 			else
 			{
 				if (strcmp(fileinfo.name, ".") != 0 && strcmp(fileinfo.name, "..") != 0)
-					files.push_back(pathName.assign(path).append("\\").append(fileinfo.name));
+					files.push_back(pathName.assign(path).append("/").append(fileinfo.name));
 			}
 		} while (_findnext(hFile, &fileinfo) == 0);
 		_findclose(hFile);
