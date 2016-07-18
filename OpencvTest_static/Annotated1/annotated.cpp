@@ -1,6 +1,7 @@
 
 #include <opencv2/opencv.hpp>  
 #include "box.h"
+
 using namespace cv;
 
 Mat src, dst;
@@ -59,10 +60,10 @@ void on_mouse(int event, int x, int y, int flags, void* ustc)
 		/**/
 		imshow("src", src);
 		src.copyTo(dst);
-		boxs.x = (float)pre_pt.x;
-		boxs.y = (float)pre_pt.y;
-		boxs.w = (float)cur_pt.x - pre_pt.x;
-		boxs.h = (float)cur_pt.y - pre_pt.y;
+		boxs.x = (float)(pre_pt.x + cur_pt.x) / 2.0;//框中心点坐标
+		boxs.y = (float)(pre_pt.y + cur_pt.y) / 2.0;
+		boxs.w = fabs((float)(cur_pt.x - pre_pt.x));
+		boxs.h = fabs((float)(cur_pt.y - pre_pt.y));
 		printf("boxs[%d]: %f %f %f %f\n", count, boxs.x, boxs.y, boxs.w, boxs.h);
 		count++;
 	}
