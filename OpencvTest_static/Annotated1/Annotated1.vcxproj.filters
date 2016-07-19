@@ -17,8 +17,12 @@
     <ClCompile Include="box.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Getfile.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="box.h" />
+    <ClInclude Include="getfile.h" />
   </ItemGroup>
 </Project>
