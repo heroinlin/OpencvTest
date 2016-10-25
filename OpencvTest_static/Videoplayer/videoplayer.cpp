@@ -1,36 +1,57 @@
-#include "cv.h"
-#include "highgui.h"
+#include "opencv2/highgui/highgui_c.h"
+#include "opencv2/imgproc/imgproc_c.h"
+#include <stdio.h>
 CvCapture* g_capture = NULL;//声明一个CvCapture类型指针,用于接收cvCreateFileCapture的返回值
 int g_slider_pos = 0;//记录滚动条的当前位置
-int frame_count = 0;//对视频帧进行计数的变量
-
+int countFrames = 0;//对视频帧进行计数的变量
+int key;
+int stopflag = 1;
+int speed = 33;
 //滚动条的回调函数  参数int pos 是指当前滚动条所在位置
 void on_changed(int pos)
 {
 	//设置g_capture的属性,使得从位置pos开始播放视频
 	cvSetCaptureProperty(g_capture, CV_CAP_PROP_POS_FRAMES, pos);
 	//在拉动滚动条后  保持变量frame_count与滚动条的位置是同步的
-	frame_count = pos;
+	countFrames = pos;
 }
 void videoplayer(CvCapture* capture)
 {
 	//获取视频的总帧数
-	int framecount = (int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
+	int numFrames = (int)cvGetCaptureProperty(capture, CV_CAP_PROP_FRAME_COUNT);
 	//在窗口show上创建名字为Position的滚动条
-	if (framecount > 0)
+	if (numFrames > 0)
 	{
-		cvCreateTrackbar("Position","videoplayer",&g_slider_pos,framecount,on_changed);
+		cvCreateTrackbar("Position", "videoplayer", &g_slider_pos, numFrames, on_changed);
 	}
-	while (1)
+	while (countFrames<numFrames)
 	{
 		IplImage* frame = cvQueryFrame(capture);
 		if (!frame) break;
+		countFrames++;
 		cvShowImage("videoplayer", frame);
-		char c = cvWaitKey(1);
-		if (c == 27) break;
+		char savename[256];
+		sprintf(savename,"./images/%07d.jpg",countFrames);
+		if (stopflag == 1)
+			key = cvWaitKey(speed);
+		else key = cvWaitKey(0);
+		switch (key)
+		{
+		case 32:{ stopflag = !stopflag; break; }
+		case 'c':{ countFrames -= 1; cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		case 'C':{  countFrames -= 1;  cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		case 'd':{ countFrames -= 2; if (countFrames < 0)countFrames = 0; cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		case 'D':{ countFrames -= 2; if (countFrames < 0)countFrames = 0;  cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		case 's':{ cvSaveImage(savename, frame, 0); break; }
+		case 'S':{ cvSaveImage(savename, frame, 0); break; }
+		case 'o':{ speed += 10; break; }
+		case 'i':{ speed -= 10; break; }
+		case 'l':{ countFrames += 5; if (countFrames < numFrames) cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		case 'L':{ countFrames += 5; if (countFrames < numFrames) cvSetCaptureProperty(capture, CV_CAP_PROP_POS_FRAMES, countFrames); break; }
+		default:{}
+		}
 		//滚动条 随着视频的播放 进行移动
-		cvSetTrackbarPos("Position", "videoplayer", frame_count);
-		frame_count++;
+		cvSetTrackbarPos("Position", "videoplayer", countFrames);
 	}
 	cvReleaseCapture(&capture);
 	cvDestroyWindow("videoplayer");
@@ -82,8 +103,8 @@ void Invplayer(CvCapture* pCapture)
 		char c = cvWaitKey(33);
 		if (c == 27) break;
 		//滚动条 随着视频的播放 进行移动
-		cvSetTrackbarPos("Position", "videoplayer", frame_count);
-		frame_count++;
+		cvSetTrackbarPos("Position", "videoplayer", countFrames);
+		countFrames++;
 	}
 	cvReleaseCapture(&pCapture);
 	cvDestroyWindow("videoplayer");	
@@ -94,7 +115,7 @@ int main(int argc, char* argv[])
 	g_capture = cvCreateFileCapture(videopath); //打开有一个视频文件
 
 	cvNamedWindow("videoplayer", CV_WINDOW_AUTOSIZE);
-	// videoplayer(g_capture);
-	Invplayer(g_capture);
+	 videoplayer(g_capture);
+	//Invplayer(g_capture);
 	return 0;
 }

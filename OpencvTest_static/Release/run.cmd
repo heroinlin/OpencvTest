@@ -1,5 +1,6 @@
 @echo OFF
-rem Three_frame_diff.exe ../videos/2.avi
+ rem Three_frame_diff.exe ../videos/1.avi
+Three_frame_diff_update.exe ../videos/1.avi
 rem image_diff.exe ../videos/2.avi
 rem Threshold.exe ../images/1.jpg
 rem  Dirtraverse.exe   D:/workspace/OpencvTest/OpencvTest_static/images/images
@@ -20,7 +21,7 @@ rem Annotated.exe  ../labels/1.txt  ../videos/1.avi
 rem History.exe ../videos/1.avi
 rem Annotated1.exe  ../images/2.jpg
  rem Annotated1.exe  ../images/images
- Annotated2.exe  ../images/images
+ rem Annotated2.exe  ../images/images
 rem Video2images.exe  ../videos/2.avi ./images
 rem GLCM.exe ../images/1.jpg
 rem Ffilldemo.exe ../images/1.jpg
