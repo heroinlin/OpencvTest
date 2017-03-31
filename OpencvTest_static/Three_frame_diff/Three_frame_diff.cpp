@@ -11,14 +11,15 @@
 using namespace cv;
 using namespace std;
 
-int main(int argc, unsigned char* argv[])
+int main(int argc,  char** argv)
 {
+	char *path = argv[1];
 	Mat img_src1, img_src2, img_src3;//3帧法需要3帧图片
 	Mat img_dst, gray1, gray2, gray3;
 	Mat gray_diff1, gray_diff2;//存储2次相减的图片
 	Mat gray;//用来显示前景的
 	//char *path = argv[1];
-	char *path = "../videos/1.avi";
+	//char *path = "../videos/1.avi";
 	VideoCapture vido_file(path);//在这里改相应的文件名
 	namedWindow("foreground", 0);
 		while (vido_file.get(CV_CAP_PROP_POS_FRAMES)<vido_file.get(CV_CAP_PROP_FRAME_COUNT) - 1)

@@ -22,7 +22,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="box.h" />
-    <ClInclude Include="getfile.h" />
+    <ClInclude Include="box.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
+    <ClInclude Include="getfile.h">
+      <Filter>Resource Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

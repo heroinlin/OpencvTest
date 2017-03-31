@@ -55,11 +55,11 @@ void VideoInverse(CvCapture* pCapture, char* output_name)
 			}
 			//显示图像
 			cvWriteFrame(output_video, pFrame);
-			cvShowImage("video", pFrame);
+			//cvShowImage("video", pFrame);
 			//如果有按键事件，则跳出循环
 			//此等待也为cvShowImage函数提供时间完成显示
 			//等待时间可以根据CPU速度调整
-			if (cvWaitKey(2) >= 0)
+			if (cvWaitKey(1) >= 0)
 				break;
 		}
 	cvReleaseVideoWriter(&output_video);

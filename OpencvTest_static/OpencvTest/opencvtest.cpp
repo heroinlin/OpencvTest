@@ -60,10 +60,19 @@ using namespace cv;
 
 void main()
 {
-	cv::Mat image = cv::imread("../images/1.jpg");
-	cv::Mat image_flip;
-	cv::flip(image, image_flip, 1);
-	imshow("flip",image_flip);
+	cv::Mat image = cv::Mat::zeros(320, 288, CV_32FC3);
+	int i,j;
+	
+	for (i = 0; i < 320; i++)
+		for (j = 0; j <288; j++)
+		{
+			image.at<Vec3f>(i, j)[0] = 0.2;
+			image.at<Vec3f>(i, j)[1] = 0.2;
+			image.at<Vec3f>(i, j)[2] = 0.1;
+		}
+	//cv::Mat image_flip;
+	//cv::flip(image, image_flip, 1);
+	imshow("flip",image);
 	cvWaitKey(0);
-	cv::imwrite("../images/flip.jpg", image_flip);
+	//cv::imwrite("../images/flip.jpg", image_flip);
 }

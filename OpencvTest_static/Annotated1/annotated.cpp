@@ -8,6 +8,8 @@ using namespace cv;
 Mat src, dst;
 static box boxs;
 static char labelname[256];
+static int window_weight;
+static int window_height;
 
 //int main(int argc,char **argv)
 //{
@@ -88,7 +90,7 @@ void on_mouse(int event, int x, int y, int flags, void* ustc)
 		//×·¼ÓÐ´Èëlabelname
 		FILE *fps;
 		fps = fopen(labelname, "a+");
-		fprintf(fps, "0 %f %f %f %f\n", boxs.x, boxs.y, boxs.w, boxs.h);
+		fprintf(fps, "0 %f %f %f %f\n", boxs.x / window_weight, boxs.y / window_height, boxs.w / window_weight, boxs.h / window_height);
 		fclose(fps);
 	}
 }
@@ -174,9 +176,9 @@ void anno_image_folder(char *dir_path,int weight,int height)
 			printf("Load %d images\n", i);
 		    Mat image = imread(fileName, 1); 
 			char savename[256];
-			sprintf(savename, "./results/%04d.jpg", i);
+			sprintf(savename, "./results/%07d.jpg", i+1);
 
-			sprintf(labelname, "./results/%04d.txt", i);
+			sprintf(labelname, "./results/%07d.txt", i+1);
 			image.copyTo(src);
 			src.copyTo(dst);
 			cvNamedWindow("Annotated", CV_WINDOW_AUTOSIZE);
@@ -205,6 +207,9 @@ void anno_image_folder(char *dir_path,int weight,int height)
 int main(int argc, char **argv)
 {
 	char*dir_path = argv[1];
-	anno_video_folder(dir_path,640,576);
+	//anno_video_folder(dir_path,640,576);
+	window_weight = 720;
+	window_height = 576;
+	anno_image_folder(dir_path, window_weight, window_height);
 	return 0;
 }
